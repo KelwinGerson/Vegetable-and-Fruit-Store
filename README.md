@@ -10,5 +10,6 @@ O método *Asynchronous*  → Tasks run in back-ground, more fast and effient
 ## For use two or more modules:
 <ul>
     <li> Create a new archive and write like a variable  'module.exports'.
+    <li>
 <ul>
 

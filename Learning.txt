@@ -1,0 +1,12 @@
+COMANDS:
+
+    'npm init' → create a new package.json with basic information about the project
+
+LIBRARYS/DEPENDENCIES:
+
+    slugify →
+    nodemon (devDependencies) → Node applications by automatically restarting, the Node application whenever we change some files in our working directory.
+        - nodemon [name_archive] → code for inicializate code
+        
+    npm → 
+        - Is possible starting code with nodemon(automatically restarting). 'npm run start' if in scripts having -> "start": "nodemon index.js"

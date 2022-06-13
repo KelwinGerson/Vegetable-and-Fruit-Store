@@ -1,27 +1,59 @@
-// Blocking, synchronous way
+const fs = require('fs')
+const http = require('http');
+const url  = require('url');
+const replaceTemplate = require('./modules/replaceTemplate')
 
-const fs = require('fs');
+const pathTxt = 'C:/Users/Kelwi/OneDrive/2022/Estudos/Udemy/Node.js,Express,MongoDB,etc/complete-node-bootcamp/1-node-farm/starter' // PATH DATA
 
-// read file
-// specify mode which return → 'utf-8' = text
-const pathTxt = 'C:/Users/Kelwi/OneDrive/2022/Estudos/Udemy/Node.js,Express,MongoDB,etc/complete-node-bootcamp/1-node-farm/starter/txt/'
+const tempOverview = fs.readFileSync(`${pathTxt}/templates/template-overview.html`, 'utf-8')
+const tempCard = fs.readFileSync(`${pathTxt}/templates/template-card.html`, 'utf-8')
+const tempProduct = fs.readFileSync(`${pathTxt}/templates/template-product.html`, 'utf-8')
 
-// Read txt
-const textIn = fs.readFileSync(`${pathTxt}input.txt`, 'utf-8');
+// LOAD THE DATA IN METHOD SYNC
+const data = fs.readFileSync('C:/Users/Kelwi/OneDrive/2022/Estudos/Udemy/Node.js,Express,MongoDB,etc/complete-node-bootcamp/1-node-farm/starter/dev-data/data.json', 'utf-8'); 
 
-//print txt
-console.log(textIn);
+// /* ------------------------------------------------- SERVER ------------------------------------------------- */ //
 
-//Today in String
-var todayMili = Date(Date.now());
-todayStr = todayMili.toString()
+const dataObj = JSON.parse(data);
 
-/* Write together last const
-→ `aspas` is the best way from interate variable together. Like this: ${}, invoque other const
-→ '\n' next line
-*/
-const textOut = `This is what we know about the avocado: ${textIn}.\nCreated on ${todayStr}`;
-
-// Write a new thing. The second argument is a data which integrate a file.
-fs.writeFileSync(`${pathTxt}output.txt`, textOut);
-console.log('File written');
+const server = http.createServer((req, res) => {
+    const { query, pathname } = url.parse(req.url, true);
+  
+    // Overview page
+    if (pathname === '/' || pathname === '/overview') {
+      res.writeHead(200, {
+        'Content-type': 'text/html'
+      });
+  
+      const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
+      const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
+      res.end(output);
+  
+      // Product page
+    } else if (pathname === '/product') {
+      res.writeHead(200, {'Content-type': 'text/html'});
+      // Retrieving an element based on a query string
+      const product = dataObj[query.id];
+      const output = replaceTemplate(tempProduct, product);
+      res.end(output);
+  
+      // API
+    } else if (pathname === '/api') {
+      res.writeHead(200, {
+        'Content-type': 'application/json'
+      });
+      res.end(data);
+  
+      // Not found
+    } else {
+      res.writeHead(404, {
+        'Content-type': 'text/html' ,
+        'my-own-header': 'hello-world',
+      });
+      res.end('<h1>Page not found!</h1>');
+    }
+  });
+  
+  server.listen(8000, '127.0.0.1', () => {
+    console.log('Listening to requests on port 8000');
+  });
