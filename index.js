@@ -1,6 +1,9 @@
 const fs = require('fs')
 const http = require('http');
 const url  = require('url');
+
+const slugify = require('slugify');
+
 const replaceTemplate = require('./modules/replaceTemplate')
 
 const pathTxt = 'C:/Users/Kelwi/OneDrive/2022/Estudos/Udemy/Node.js,Express,MongoDB,etc/complete-node-bootcamp/1-node-farm/starter' // PATH DATA

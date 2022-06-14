@@ -4,9 +4,18 @@ COMANDS:
 
 LIBRARYS/DEPENDENCIES:
 
-    slugify →
+    slugify → Last part of a URL that contains a unique string that identifies the resourse that the website is displaying.
     nodemon (devDependencies) → Node applications by automatically restarting, the Node application whenever we change some files in our working directory.
         - nodemon [name_archive] → code for inicializate code
         
     npm → 
-        - Is possible starting code with nodemon(automatically restarting). 'npm run start' if in scripts having -> "start": "nodemon index.js"
+        'npm run start'→ Is possible starting code with nodemon(automatically restarting).  if in scripts(package.json) having -> "start": "nodemon index.js"
+        'npm outdated' → verifify the versions of dependencies
+        'npm update [dependencies]' → update
+        'npm install' → download all dependencies which be especify in packages.json
+        'nom uninstall' →
+
+
+TIPS AND TRICKS:
+
+    Never share folder[node_modules] and never check it out into your repository. But the packages.json is important for the other developer.
